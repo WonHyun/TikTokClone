@@ -4,12 +4,14 @@ import 'package:tictok_clone/constants/sizes.dart';
 class FormButton extends StatelessWidget {
   const FormButton({
     super.key,
-    this.isEnabled = true,
+    required this.text,
     required this.onTap,
+    this.isEnabled = true,
   });
 
-  final bool isEnabled;
+  final String text;
   final VoidCallback onTap;
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class FormButton extends StatelessWidget {
               color: isEnabled ? Colors.white : Colors.grey.shade400,
               fontWeight: FontWeight.w600,
             ),
-            child: const Text("Next", textAlign: TextAlign.center),
+            child: Text(text, textAlign: TextAlign.center),
           ),
         ),
       ),

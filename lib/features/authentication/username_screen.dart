@@ -98,8 +98,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
               ),
               Gaps.v32,
               FormButton(
-                isEnabled: _usename.isNotEmpty,
+                text: "Next",
                 onTap: () => _onNextTap(),
+                isEnabled: _usename.isNotEmpty,
               ),
             ],
           ),
