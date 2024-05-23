@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
-import 'package:tictok_clone/features/authentication/email_screen.dart';
 import 'package:tictok_clone/features/authentication/login_screen.dart';
+import 'package:tictok_clone/features/authentication/username_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/auth_button.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -15,9 +15,9 @@ class SignUpScreen extends StatelessWidget {
     ));
   }
 
-  void _onEmailTap(BuildContext context) {
+  void _onUsernameTap(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const EmailScreen(),
+      builder: (context) => const UsernameScreen(),
     ));
   }
 
@@ -48,7 +48,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.v40,
               AuthButton(
-                onTap: () => _onEmailTap(context),
+                onTap: () => _onUsernameTap(context),
                 icon: const FaIcon(FontAwesomeIcons.user),
                 text: "Use email & password",
               ),
