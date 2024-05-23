@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
         elevation: 2,
         color: Colors.grey.shade50,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Sizes.size10),
+          padding: const EdgeInsets.symmetric(vertical: Sizes.size24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

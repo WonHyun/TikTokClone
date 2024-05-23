@@ -17,6 +17,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
 
   String _usename = "";
 
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
+  }
+
   void _onNextTap() {
     if (_usename.isEmpty) return;
     Navigator.of(context).push(
@@ -45,57 +49,60 @@ class _UsernameScreenState extends State<UsernameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Sign up",
+    return GestureDetector(
+      onTap: _onScaffoldTap,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            "Sign up",
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.size32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gaps.v40,
-            const Text(
-              "Create username",
-              style: TextStyle(
-                fontSize: Sizes.size24,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Text(
-              "You can always change this later.",
-              style: TextStyle(
-                fontSize: Sizes.size16,
-                color: Colors.black54,
-              ),
-            ),
-            Gaps.v16,
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                hintText: "Username",
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400,
-                  ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.size32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gaps.v40,
+              const Text(
+                "Create username",
+                style: TextStyle(
+                  fontSize: Sizes.size24,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              cursorColor: Theme.of(context).primaryColor,
-            ),
-            Gaps.v32,
-            FormButton(
-              isEnabled: _usename.isNotEmpty,
-              onTap: () => _onNextTap(),
-            ),
-          ],
+              const Text(
+                "You can always change this later.",
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                  color: Colors.black54,
+                ),
+              ),
+              Gaps.v16,
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  hintText: "Username",
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                ),
+                cursorColor: Theme.of(context).primaryColor,
+              ),
+              Gaps.v32,
+              FormButton(
+                isEnabled: _usename.isNotEmpty,
+                onTap: () => _onNextTap(),
+              ),
+            ],
+          ),
         ),
       ),
     );
