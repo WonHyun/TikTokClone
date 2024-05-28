@@ -20,10 +20,11 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
       DateTime.now().subtract(const Duration(days: 365 * 12));
 
   void _onNextTap() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const InterestsScreen(),
       ),
+      (route) => false,
     );
   }
 

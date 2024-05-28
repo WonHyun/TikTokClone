@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/main_navigation/main_navigaion_screen.dart';
 
 enum Direction { left, right }
 
@@ -38,6 +39,16 @@ class _TutorialScreenState extends State<TutorialScreen> {
         _showingPage = Page.first;
       });
     }
+  }
+
+  void _onEnterAppTap() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainNavigaionScreen(),
+      ),
+      (route) => false,
+    );
   }
 
   @override
@@ -108,7 +119,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
               opacity: _showingPage == Page.first ? 0.0 : 1.0,
               child: CupertinoButton(
                 color: Theme.of(context).primaryColor,
-                onPressed: () => {},
+                onPressed: _onEnterAppTap,
                 child: const Text("Enter the app!"),
               ),
             ),
