@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/videos/viedo_timeline_screen.dart';
 
 import 'widgets/nav_tab.dart';
 import 'widgets/post_video_button.dart';
@@ -42,6 +43,18 @@ class _MainNavigaionScreenState extends State<MainNavigaionScreen> {
         children: [
           Offstage(
             offstage: _selectedIndex != 0,
+            child: const ViedoTimelineScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 1,
+            child: Container(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 3,
+            child: Container(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 4,
             child: Container(),
           ),
         ],
