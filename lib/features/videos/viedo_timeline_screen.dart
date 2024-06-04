@@ -25,7 +25,11 @@ class _ViedoTimelineScreenState extends State<ViedoTimelineScreen> {
   }
 
   void _onVideoFinished() {
-    _controller.nextPage(duration: _scrollDuration, curve: _scrollCurve);
+    // _controller.nextPage(duration: _scrollDuration, curve: _scrollCurve);
+  }
+
+  Future<void> _onRefresh() {
+    return Future.delayed(const Duration(seconds: 5));
   }
 
   @override
@@ -36,14 +40,20 @@ class _ViedoTimelineScreenState extends State<ViedoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: _controller,
-      scrollDirection: Axis.vertical,
-      onPageChanged: _onPageChanged,
-      itemCount: _itemCount,
-      itemBuilder: (context, index) => VideoPost(
-        onVideoFinished: _onVideoFinished,
-        pageIndex: index,
+    return RefreshIndicator(
+      displacement: 50,
+      edgeOffset: 20,
+      color: Theme.of(context).primaryColor,
+      onRefresh: _onRefresh,
+      child: PageView.builder(
+        controller: _controller,
+        scrollDirection: Axis.vertical,
+        onPageChanged: _onPageChanged,
+        itemCount: _itemCount,
+        itemBuilder: (context, index) => VideoPost(
+          onVideoFinished: _onVideoFinished,
+          pageIndex: index,
+        ),
       ),
     );
   }

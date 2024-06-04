@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/videos/widgets/more_rich_text.dart';
+import 'package:tictok_clone/features/videos/widgets/video_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -38,13 +42,9 @@ class _VideoPostState extends State<VideoPost>
 
   Future<void> _initVideoPlayer() async {
     await _videoController.initialize();
-    _videoController.setVolume(0.0);
-    _videoController.setLooping(true);
-    _videoController.play();
+    await _videoController.setVolume(0.0);
+    await _videoController.setLooping(true);
     setState(() {});
-    // _videoController.addListener(() {
-    //   _onVideoChange();
-    // });
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
@@ -77,9 +77,6 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
-    _animationController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -121,8 +118,14 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: IgnorePointer(
               child: Center(
-                child: Transform.scale(
-                  scale: _animationController.value,
+                child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _animationController.value,
+                      child: child,
+                    );
+                  },
                   child: AnimatedOpacity(
                     duration: _animationDuration,
                     opacity: _isPaused ? 1 : 0,
@@ -134,6 +137,63 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "@mayomint",
+                  style: TextStyle(
+                    fontSize: Sizes.size20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Gaps.v10,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 100,
+                  child: const MoreRichText(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                    text:
+                        "Cosmic Stars from asia 'kongfu' house inside special l-u-n-c-h set. Cosmic Stars from asia 'kongfu' house inside special l-u-n-c-h set.",
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Positioned(
+            bottom: 50,
+            right: 10,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  foregroundImage: AssetImage("assets/images/cyber-kitty.jpg"),
+                  child: Text("US"),
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidHeart,
+                  text: "2.9M",
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidComment,
+                  text: "33K",
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.share,
+                  text: "Share",
+                ),
+              ],
             ),
           ),
         ],
