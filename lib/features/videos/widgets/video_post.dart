@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/videos/widgets/more_rich_text.dart';
 import 'package:tictok_clone/features/videos/widgets/video_button.dart';
+import 'package:tictok_clone/features/videos/widgets/vidoe_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -65,6 +67,19 @@ class _VideoPostState extends State<VideoPost>
     setState(() {
       _isPaused = !_isPaused;
     });
+  }
+
+  Future<void> _onCommentsTap(BuildContext context) async {
+    if (_videoController.value.isPlaying) {
+      _onTogglePause();
+    }
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const VidoeComments(),
+    );
+    _onTogglePause();
   }
 
   @override
@@ -169,28 +184,31 @@ class _VideoPostState extends State<VideoPost>
               ],
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: 50,
             right: 10,
             child: Column(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 25,
                   foregroundImage: AssetImage("assets/images/cyber-kitty.jpg"),
                   child: Text("US"),
                 ),
                 Gaps.v24,
-                VideoButton(
+                const VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
                   text: "2.9M",
                 ),
                 Gaps.v24,
-                VideoButton(
-                  icon: FontAwesomeIcons.solidComment,
-                  text: "33K",
+                GestureDetector(
+                  onTap: () => _onCommentsTap(context),
+                  child: const VideoButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: "33K",
+                  ),
                 ),
                 Gaps.v24,
-                VideoButton(
+                const VideoButton(
                   icon: FontAwesomeIcons.share,
                   text: "Share",
                 ),
