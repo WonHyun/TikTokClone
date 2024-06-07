@@ -6,9 +6,11 @@ class PostVideoButton extends StatefulWidget {
   const PostVideoButton({
     super.key,
     required this.onTap,
+    required this.inverted,
   });
 
   final VoidCallback onTap;
+  final bool inverted;
 
   @override
   State<PostVideoButton> createState() => _PostVideoButtonState();
@@ -60,14 +62,14 @@ class _PostVideoButtonState extends State<PostVideoButton> {
             height: _isPressed ? 40 : 30,
             padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: widget.inverted ? Colors.black : Colors.white,
               borderRadius: BorderRadius.circular(Sizes.size6),
             ),
-            child: const Center(
+            child: Center(
               child: FaIcon(
                 FontAwesomeIcons.plus,
                 size: 18,
-                color: Colors.black,
+                color: widget.inverted ? Colors.white : Colors.black,
               ),
             ),
           ),
