@@ -4,6 +4,7 @@ import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/discover/discover_screen.dart';
 import 'package:tictok_clone/features/inbox/inbox_screen.dart';
+import 'package:tictok_clone/features/users/user_profile_screen.dart';
 import 'package:tictok_clone/features/videos/viedo_timeline_screen.dart';
 
 import 'widgets/nav_tab.dart';
@@ -17,7 +18,7 @@ class MainNavigaionScreen extends StatefulWidget {
 }
 
 class _MainNavigaionScreenState extends State<MainNavigaionScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 4;
 
   void _onTap(int index) {
     setState(() {
@@ -59,7 +60,7 @@ class _MainNavigaionScreenState extends State<MainNavigaionScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: Container(),
+            child: const UserProfileScreen(),
           ),
         ],
       ),

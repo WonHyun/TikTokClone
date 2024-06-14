@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/login_screen.dart';
+import 'package:tictok_clone/features/inbox/activity_screen.dart';
 import 'package:tictok_clone/features/main_navigation/main_navigaion_screen.dart';
 
 void main() {
@@ -33,7 +34,6 @@ class TikTokApp extends StatelessWidget {
           cursorColor: Color(0xFFE9435A),
         ),
       ),
-      // home: const LoginScreen(),
       home: const MainNavigaionScreen(),
     );
   }
