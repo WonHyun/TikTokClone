@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictok_clone/constants/breakpoints.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/settings/settings_screen.dart';
 import 'package:tictok_clone/features/users/widgets/persistent_tab_bar.dart';
+
+import 'widgets/profile_circle_avatar.dart';
+import 'widgets/profile_follow_button.dart';
+import 'widgets/profile_id_view.dart';
+import 'widgets/profile_link_text.dart';
+import 'widgets/profile_user_description.dart';
+import 'widgets/profile_user_status_panel.dart';
+import 'widgets/square_button.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -36,8 +45,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: EdgeInsets.zero,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width > Breakpoints.md
+                            ? 5
+                            : 3,
                     crossAxisSpacing: Sizes.size2,
                     mainAxisSpacing: Sizes.size2,
                     childAspectRatio: 9 / 14,
@@ -118,159 +130,120 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ],
               ),
               SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 50,
-                      foregroundImage: NetworkImage(
-                          "https://avatars.githubusercontent.com/u/34933982?v=4"),
-                      child: Text("US"),
-                    ),
-                    Gaps.v20,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "@FIFA",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.h5,
-                        FaIcon(
-                          FontAwesomeIcons.solidCircleCheck,
-                          size: Sizes.size16,
-                          color: Colors.blue.shade500,
-                        ),
-                      ],
-                    ),
-                    Gaps.v24,
-                    SizedBox(
-                      height: Sizes.size48,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > Breakpoints.md) {
+                      return Column(
                         children: [
-                          const UserStatePanelView(
-                            title: "Following",
-                            score: "97",
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const ProfileCircleAvatar(
+                                imgPath:
+                                    "https://avatars.githubusercontent.com/u/34933982?v=4",
+                              ),
+                              Gaps.h16,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 5,
+                                child: const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Gaps.v10,
+                                    ProfileIdView(
+                                        id: "@FIFA", isCertified: true),
+                                    Gaps.v10,
+                                    ProfileUserDescription(
+                                      description:
+                                          "All highlights and where to watch live matches on FIFA+ I wonder how it would loook. All highlights and where to watch live matches on FIFA+ I wonder how it would loook.",
+                                    ),
+                                    Gaps.v10,
+                                    ProfileLinkText(
+                                        link: "https://nomadcoders.co"),
+                                  ],
+                                ),
+                              ),
+                              Gaps.h16,
+                              const Column(
+                                children: [
+                                  ProfileUserStatusPanel(
+                                    following: "97",
+                                    follower: "10M",
+                                    likes: "194.3M",
+                                  ),
+                                  Gaps.v10,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ProfileFollowButton(
+                                        width: 160,
+                                      ),
+                                      Gaps.h5,
+                                      SquareButton(
+                                        size: Sizes.size40,
+                                        iconSize: Sizes.size18,
+                                        icon: FontAwesomeIcons.youtube,
+                                      ),
+                                      Gaps.h5,
+                                      SquareButton(
+                                        size: Sizes.size40,
+                                        iconSize: Sizes.size16,
+                                        icon: FontAwesomeIcons.caretDown,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          VerticalDivider(
-                            width: Sizes.size32,
-                            thickness: Sizes.size1,
-                            color: Colors.grey.shade400,
-                            indent: Sizes.size14,
-                            endIndent: Sizes.size14,
-                          ),
-                          const UserStatePanelView(
-                            title: "Followers",
-                            score: "10M",
-                          ),
-                          VerticalDivider(
-                            width: Sizes.size32,
-                            thickness: Sizes.size1,
-                            color: Colors.grey.shade400,
-                            indent: Sizes.size14,
-                            endIndent: Sizes.size14,
-                          ),
-                          const UserStatePanelView(
-                            title: "Likes",
-                            score: "194.3M",
-                          ),
+                          Gaps.v20,
                         ],
-                      ),
-                    ),
-                    Gaps.v14,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 3,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: Sizes.size12),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(Sizes.size4),
+                      );
+                    } else {
+                      return const Column(
+                        children: [
+                          ProfileCircleAvatar(
+                            imgPath:
+                                "https://avatars.githubusercontent.com/u/34933982?v=4",
+                          ),
+                          Gaps.v20,
+                          ProfileIdView(id: "@FIFA", isCertified: true),
+                          Gaps.v24,
+                          ProfileUserStatusPanel(
+                            following: "97",
+                            follower: "10M",
+                            likes: "194.3M",
+                          ),
+                          Gaps.v14,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ProfileFollowButton(width: 160),
+                              Gaps.h5,
+                              SquareButton(
+                                size: Sizes.size40,
+                                iconSize: Sizes.size18,
+                                icon: FontAwesomeIcons.youtube,
                               ),
-                            ),
-                            child: const Text(
-                              "Follow",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
+                              Gaps.h5,
+                              SquareButton(
+                                size: Sizes.size40,
+                                iconSize: Sizes.size16,
+                                icon: FontAwesomeIcons.caretDown,
                               ),
-                              textAlign: TextAlign.center,
-                            ),
+                            ],
                           ),
-                        ),
-                        Gaps.h5,
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.grey.shade300,
-                            ),
+                          Gaps.v14,
+                          ProfileUserDescription(
+                            description:
+                                "All highlights and where to watch live matches on FIFA+ I wonder how it would loook",
                           ),
-                          child: const Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.youtube,
-                              size: Sizes.size18,
-                            ),
-                          ),
-                        ),
-                        Gaps.h5,
-                        Container(
-                          width: 40,
-                          height: 40,
-                          padding: const EdgeInsets.all(Sizes.size6),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          child: const Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.caretDown,
-                              size: Sizes.size16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Gaps.v14,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Sizes.size32,
-                      ),
-                      child: Text(
-                        "All highlights and where to watch live matches on FIFA+ I wonder how it would loook",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Gaps.v14,
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.link,
-                          size: Sizes.size12,
-                        ),
-                        Gaps.h4,
-                        Text(
-                          "https://nomadcoders.co",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Gaps.v20,
-                  ],
+                          Gaps.v14,
+                          ProfileLinkText(link: "https://nomadcoders.co"),
+                          Gaps.v20,
+                        ],
+                      );
+                    }
+                  },
                 ),
               ),
               SliverPersistentHeader(
@@ -281,39 +254,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           },
         ),
       ),
-    );
-  }
-}
-
-class UserStatePanelView extends StatelessWidget {
-  const UserStatePanelView({
-    super.key,
-    required this.score,
-    required this.title,
-  });
-
-  final String score;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          score,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: Sizes.size18,
-          ),
-        ),
-        Gaps.v3,
-        Text(
-          title,
-          style: TextStyle(
-            color: Colors.grey.shade500,
-          ),
-        ),
-      ],
     );
   }
 }
