@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
@@ -32,6 +32,7 @@ class _VideoPostState extends State<VideoPost>
   late final AnimationController _animationController;
 
   bool _isPaused = false;
+  bool _isMuted = false;
 
   void _onVideoChange() {
     if (_videoController.value.isInitialized) {
@@ -43,7 +44,10 @@ class _VideoPostState extends State<VideoPost>
 
   Future<void> _initVideoPlayer() async {
     await _videoController.initialize();
-    await _videoController.setVolume(0.0);
+    if (kIsWeb) {
+      await _videoController.setVolume(0.0);
+      _isMuted = true;
+    }
     await _videoController.setLooping(true);
     setState(() {});
   }
@@ -84,6 +88,18 @@ class _VideoPostState extends State<VideoPost>
       builder: (context) => const VidoeComments(),
     );
     _onTogglePause();
+  }
+
+  Future<void> _toggleVolume() async {
+    if (_isMuted) {
+      await _videoController.setVolume(1.0);
+    } else {
+      await _videoController.setVolume(0.0);
+    }
+
+    setState(() {
+      _isMuted = !_isMuted;
+    });
   }
 
   @override
@@ -193,6 +209,19 @@ class _VideoPostState extends State<VideoPost>
             right: 10,
             child: Column(
               children: [
+                GestureDetector(
+                  onTap: _toggleVolume,
+                  child: Center(
+                    child: FaIcon(
+                      _isMuted
+                          ? FontAwesomeIcons.volumeXmark
+                          : FontAwesomeIcons.volumeHigh,
+                      color: Colors.white,
+                      size: 26,
+                    ),
+                  ),
+                ),
+                Gaps.v24,
                 const CircleAvatar(
                   radius: 25,
                   foregroundImage: AssetImage("assets/images/cyber-kitty.jpg"),
