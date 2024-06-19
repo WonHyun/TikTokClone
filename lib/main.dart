@@ -3,15 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tictok_clone/features/main_navigation/main_navigaion_screen.dart';
+import 'package:tictok_clone/features/videos/video_recording_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await SystemChrome.setPreferredOrientations(
-  //   [
-  //     DeviceOrientation.portraitUp,
-  //   ],
-  // );
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
 
   // SystemChrome.setSystemUIOverlayStyle(
   //   SystemUiOverlayStyle.light,
@@ -47,7 +48,8 @@ class TikTokApp extends StatelessWidget {
           cursorColor: Color(0xFFE9435A),
         ),
       ),
-      home: const MainNavigaionScreen(),
+      // home: const MainNavigaionScreen(),
+      home: const VideoRecordingScreen(),
     );
   }
 }
