@@ -25,7 +25,9 @@ class _TutorialScreenState extends State<TutorialScreen> {
         _direction = Direction.right;
       });
     } else {
-      _direction = Direction.left;
+      setState(() {
+        _direction = Direction.left;
+      });
     }
   }
 
