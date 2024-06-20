@@ -7,10 +7,13 @@ environment:
   sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
-  camera: ^0.11.0+1
+  # this version has some bug, will be update
+  # camera: ^0.11.0+1
+  camera: 0.10.6
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.7.0
+  gallery_saver: ^2.3.2
   permission_handler: ^11.3.1
   video_player: ^2.8.6
   visibility_detector: ^0.4.0+2

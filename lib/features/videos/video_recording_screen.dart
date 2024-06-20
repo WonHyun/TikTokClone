@@ -96,12 +96,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     final file = await _cameraController.stopVideoRecording();
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => VideoPreviewScreen(video: file),
-      ),
-    );
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPreviewScreen(video: file),
+        ),
+      );
+    }
   }
 
   @override
@@ -130,84 +132,87 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
+      body: Expanded(
         child: !_hasPermission || !_cameraController.value.isInitialized
-            ? const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Initializing...",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Sizes.size20,
+            ? const Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Initializing...",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Sizes.size20,
+                      ),
                     ),
-                  ),
-                  Gaps.v20,
-                  CircularProgressIndicator.adaptive(),
-                ],
+                    Gaps.v20,
+                    CircularProgressIndicator.adaptive(),
+                  ],
+                ),
               )
-            : Stack(
-                alignment: Alignment.center,
-                children: [
-                  CameraPreview(_cameraController),
-                  Positioned(
-                    top: Sizes.size20,
-                    right: Sizes.size20,
-                    child: Column(
-                      children: [
-                        IconButton(
-                          color: Colors.white,
-                          onPressed: _toggleSelfieMode,
-                          icon: const Icon(
-                            Icons.cameraswitch,
+            : Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CameraPreview(_cameraController),
+                    Positioned(
+                      top: Sizes.size20,
+                      right: Sizes.size20,
+                      child: Column(
+                        children: [
+                          IconButton(
+                            color: Colors.white,
+                            onPressed: _toggleSelfieMode,
+                            icon: const Icon(
+                              Icons.cameraswitch,
+                            ),
                           ),
-                        ),
-                        Gaps.v10,
-                        ...FlashMode.values.map(
-                          (value) => FlashButton(
-                            flashMode: value,
-                            onPressed: _setFlashMode,
-                            isOn: _flashMode == value,
+                          Gaps.v10,
+                          ...FlashMode.values.map(
+                            (value) => FlashButton(
+                              flashMode: value,
+                              onPressed: _setFlashMode,
+                              isOn: _flashMode == value,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: Sizes.size40,
-                    child: GestureDetector(
-                      onTapDown: (details) => _startRecording(),
-                      onTapUp: (details) => _stopRecording(),
-                      child: ScaleTransition(
-                        scale: _buttonAnimation,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              width: Sizes.size80 + Sizes.size14,
-                              height: Sizes.size80 + Sizes.size14,
-                              child: CircularProgressIndicator(
-                                color: Colors.red.shade400,
-                                strokeWidth: Sizes.size6,
-                                value: _progressAnimationController.value,
+                    Positioned(
+                      bottom: Sizes.size40,
+                      child: GestureDetector(
+                        onTapDown: (details) => _startRecording(),
+                        onTapUp: (details) => _stopRecording(),
+                        child: ScaleTransition(
+                          scale: _buttonAnimation,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SizedBox(
+                                width: Sizes.size80 + Sizes.size14,
+                                height: Sizes.size80 + Sizes.size14,
+                                child: CircularProgressIndicator(
+                                  color: Colors.red.shade400,
+                                  strokeWidth: Sizes.size6,
+                                  value: _progressAnimationController.value,
+                                ),
                               ),
-                            ),
-                            Container(
-                              width: Sizes.size80,
-                              height: Sizes.size80,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.red.shade400,
+                              Container(
+                                width: Sizes.size80,
+                                height: Sizes.size80,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.red.shade400,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
       ),
     );
