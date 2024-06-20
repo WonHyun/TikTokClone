@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -104,7 +106,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     _buttonAnimationController.reverse();
     _progressAnimationController.reset();
 
-    final file = await _cameraController.stopVideoRecording();
+    final file = await _convertFileTempToMp4(
+        await _cameraController.stopVideoRecording());
 
     if (mounted) {
       Navigator.push(
@@ -117,6 +120,16 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         ),
       );
     }
+  }
+
+  Future<XFile> _convertFileTempToMp4(XFile tempFile) async {
+    final newFile = File(tempFile.path.replaceFirst('.temp', '.mp4'));
+    await newFile.writeAsBytes(await tempFile.readAsBytes());
+
+    return XFile.fromData(
+      await tempFile.readAsBytes(),
+      path: tempFile.path.replaceFirst('.temp', '.mp4'),
+    );
   }
 
   Future<void> _onPickVideoPressed() async {

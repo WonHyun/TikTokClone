@@ -7,9 +7,7 @@ environment:
   sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
-  # this version has some bug, will be update
-  # camera: ^0.11.0+1
-  camera: 0.10.6
+  camera: ^0.11.0+1
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.7.0

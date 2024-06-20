@@ -78,25 +78,22 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
         ],
       ),
       body: _videoController.value.isInitialized
-          // ? Transform.rotate(
-          //     angle: 90 * 3.14 / 180,
-          //     child: AspectRatio(
-          //       aspectRatio: _videoController.value.aspectRatio,
-          //       child: FittedBox(
-          //         fit: BoxFit.cover,
-          //         child: SizedBox(
-          //           width: _videoController.value.size.height,
-          //           height: _videoController.value.size.width,
-          //           child: VideoPlayer(_videoController),
-          //         ),
-          //       ),
-          //     ),
-          //   )
-          ? SizedBox(
-              width: _videoController.value.size.width,
-              height: _videoController.value.size.height,
-              child: VideoPlayer(_videoController),
+          ? Stack(
+              children: [
+                Transform.rotate(
+                  angle: 90 * 3.14 / 180,
+                  child: AspectRatio(
+                    aspectRatio: 1 / _videoController.value.aspectRatio,
+                    child: VideoPlayer(_videoController),
+                  ),
+                ),
+              ],
             )
+          // ? SizedBox(
+          //     width: _videoController.value.size.width,
+          //     height: _videoController.value.size.height,
+          //     child: VideoPlayer(_videoController),
+          //   )
           : null,
     );
   }
