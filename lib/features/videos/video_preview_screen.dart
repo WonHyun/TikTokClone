@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -78,22 +79,33 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
         ],
       ),
       body: _videoController.value.isInitialized
-          ? Stack(
-              children: [
-                Transform.rotate(
-                  angle: 90 * 3.14 / 180,
+          ? Center(
+              child: SizedBox(
+                height: _videoController.value.aspectRatio > 1
+                    ? null
+                    : MediaQuery.of(context).size.width,
+                child: Transform.rotate(
+                  angle: _videoController.value.aspectRatio > 1 ? 0 : pi / 2,
                   child: AspectRatio(
-                    aspectRatio: 1 / _videoController.value.aspectRatio,
-                    child: VideoPlayer(_videoController),
+                    aspectRatio: _videoController.value.aspectRatio > 1
+                        ? _videoController.value.aspectRatio
+                        : 1 / _videoController.value.aspectRatio,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: _videoController.value.aspectRatio > 1
+                            ? _videoController.value.size.width
+                            : _videoController.value.size.height,
+                        height: _videoController.value.aspectRatio > 1
+                            ? _videoController.value.size.height
+                            : _videoController.value.size.width,
+                        child: VideoPlayer(_videoController),
+                      ),
+                    ),
                   ),
                 ),
-              ],
+              ),
             )
-          // ? SizedBox(
-          //     width: _videoController.value.size.width,
-          //     height: _videoController.value.size.height,
-          //     child: VideoPlayer(_videoController),
-          //   )
           : null,
     );
   }

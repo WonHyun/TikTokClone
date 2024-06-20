@@ -8,11 +8,11 @@ import 'package:tictok_clone/features/videos/video_recording_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await SystemChrome.setPreferredOrientations(
-    [
-      DeviceOrientation.portraitUp,
-    ],
-  );
+  // await SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //   ],
+  // );
 
   // SystemChrome.setSystemUIOverlayStyle(
   //   SystemUiOverlayStyle.light,
