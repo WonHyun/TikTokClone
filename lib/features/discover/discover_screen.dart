@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/breakpoints.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/utils.dart';
 
 final tabs = [
   "Top",
@@ -98,8 +99,12 @@ class _DiscoverScreenState extends State<DiscoverScreen>
               controller: _textFieldController,
               onChanged: _onSearchChanged,
               onSubmitted: _onSearchSubmitted,
+              style: const TextStyle(
+                color: Colors.black,
+              ),
               decoration: InputDecoration(
                 hintText: "Search",
+                hintStyle: const TextStyle(color: Colors.black),
                 filled: true,
                 fillColor: Colors.grey.shade200,
                 border: OutlineInputBorder(
@@ -147,9 +152,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
             fontWeight: FontWeight.w600,
             fontSize: Sizes.size16,
           ),
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey.shade500,
-          indicatorColor: Colors.black,
+          indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
           tabs: [
             for (var tab in tabs) Tab(text: tab),
           ],
@@ -204,7 +207,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         constraints.maxWidth > 250)
                       DefaultTextStyle(
                         style: TextStyle(
-                          color: Colors.grey.shade600,
+                          color: isDarkMode(context)
+                              ? Colors.grey.shade300
+                              : Colors.grey.shade600,
                           fontWeight: FontWeight.w600,
                         ),
                         child: Row(

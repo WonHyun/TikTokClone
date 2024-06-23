@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({super.key});
@@ -14,6 +15,7 @@ class ChatDetailScreen extends StatefulWidget {
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
@@ -58,15 +60,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             trailing: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FaIcon(
-                  FontAwesomeIcons.flag,
-                  color: Colors.black,
-                ),
+                FaIcon(FontAwesomeIcons.flag),
                 Gaps.h32,
-                FaIcon(
-                  FontAwesomeIcons.ellipsis,
-                  color: Colors.black,
-                ),
+                FaIcon(FontAwesomeIcons.ellipsis),
               ],
             ),
           ),
@@ -120,7 +116,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               bottom: 0,
               width: MediaQuery.of(context).size.width,
               child: BottomAppBar(
-                color: Colors.grey.shade100,
+                color: isDark ? null : Colors.grey.shade100,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 15,
@@ -138,26 +134,26 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               child: Container(
                                 width: 30,
                                 height: 10,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
                                     topRight: Radius.circular(30),
                                   ),
-                                  color: Colors.white,
+                                  color: isDark ? null : Colors.white,
                                 ),
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(right: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
                               child: TextField(
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 10,
                                     vertical: 10,
                                   ),
                                   filled: true,
-                                  fillColor: Colors.white,
+                                  fillColor: isDark ? null : Colors.white,
                                   hintText: "Send a message...",
-                                  border: OutlineInputBorder(
+                                  border: const OutlineInputBorder(
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(30),
                                       topRight: Radius.circular(30),
@@ -165,13 +161,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     ),
                                     borderSide: BorderSide.none,
                                   ),
-                                  suffix: Row(
+                                  suffix: const Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.faceSmile,
-                                        color: Colors.black,
-                                      ),
+                                      FaIcon(FontAwesomeIcons.faceSmile),
                                     ],
                                   ),
                                 ),

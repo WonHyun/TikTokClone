@@ -5,7 +5,7 @@ import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/videos/widgets/more_rich_text.dart';
 import 'package:tictok_clone/features/videos/widgets/video_button.dart';
-import 'package:tictok_clone/features/videos/widgets/vidoe_comments.dart';
+import 'package:tictok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -85,7 +85,7 @@ class _VideoPostState extends State<VideoPost>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => const VidoeComments(),
+      builder: (context) => const VideoComments(),
     );
     _onTogglePause();
   }
