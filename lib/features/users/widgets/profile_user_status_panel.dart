@@ -17,7 +17,7 @@ class ProfileUserStatusPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: Sizes.size48,
+      height: Sizes.size52,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

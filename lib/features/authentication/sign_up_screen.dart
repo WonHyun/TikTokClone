@@ -5,6 +5,7 @@ import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/login_screen.dart';
 import 'package:tictok_clone/features/authentication/username_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tictok_clone/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -99,10 +100,13 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
             ),
-            bottomNavigationBar: BottomAppBar(
-              elevation: 2,
+            bottomNavigationBar: Container(
+              color: isDarkMode(context) ? null : Colors.grey.shade50,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: Sizes.size24),
+                padding: const EdgeInsets.only(
+                  top: Sizes.size24,
+                  bottom: Sizes.size64,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
