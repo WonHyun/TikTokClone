@@ -10,20 +10,50 @@ import 'package:tictok_clone/utils.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
+  static String routeName = "/";
+
   void _onScaffoldTap(BuildContext context) {
     FocusScope.of(context).unfocus();
   }
 
-  void _onLoginTap(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const LoginScreen(),
-    ));
+  Future<void> _onLoginTap(BuildContext context) async {
+    // final result = await Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (context) => const LoginScreen(),
+    // ));
+    // print(result); // "Return to SignUp"
+    final result = await Navigator.pushNamed(context, LoginScreen.routeName);
+    print(result); // "Return to SignUp"
   }
 
   void _onUsernameTap(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const UsernameScreen(),
-    ));
+    // Navigator.of(context).push(
+    //   PageRouteBuilder(
+    //     transitionDuration: const Duration(milliseconds: 200),
+    //     reverseTransitionDuration: const Duration(milliseconds: 200),
+    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //       final offsetAnimation = Tween(
+    //         begin: const Offset(1, 0),
+    //         end: Offset.zero,
+    //       ).animate(animation);
+
+    //       final opacityAnimation = Tween(
+    //         begin: 0.5,
+    //         end: 1.0,
+    //       ).animate(animation);
+
+    //       return SlideTransition(
+    //         position: offsetAnimation,
+    //         child: FadeTransition(
+    //           opacity: opacityAnimation,
+    //           child: child,
+    //         ),
+    //       );
+    //     },
+    //     pageBuilder: (context, animation, secondaryAnimation) =>
+    //         const UsernameScreen(),
+    //   ),
+    // );
+    Navigator.of(context).pushNamed(UsernameScreen.routeName);
   }
 
   @override

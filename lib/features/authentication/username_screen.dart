@@ -8,6 +8,8 @@ import 'widgets/form_button.dart';
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
 
+  static String routeName = "/username";
+
   @override
   State<UsernameScreen> createState() => _UsernameScreenState();
 }
@@ -15,18 +17,18 @@ class UsernameScreen extends StatefulWidget {
 class _UsernameScreenState extends State<UsernameScreen> {
   final TextEditingController _usernameController = TextEditingController();
 
-  String _usename = "";
+  String _username = "";
 
   void _onScaffoldTap() {
     FocusScope.of(context).unfocus();
   }
 
   void _onNextTap() {
-    if (_usename.isEmpty) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const EmailScreen(),
-      ),
+    if (_username.isEmpty) return;
+    Navigator.pushNamed(
+      context,
+      EmailScreen.routeName,
+      arguments: EmailScreenArguments(username: _username),
     );
   }
 
@@ -36,7 +38,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
 
     _usernameController.addListener(() {
       setState(() {
-        _usename = _usernameController.text;
+        _username = _usernameController.text;
       });
     });
   }
@@ -100,7 +102,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
               FormButton(
                 text: "Next",
                 onTap: () => _onNextTap(),
-                isEnabled: _usename.isNotEmpty,
+                isEnabled: _username.isNotEmpty,
               ),
             ],
           ),

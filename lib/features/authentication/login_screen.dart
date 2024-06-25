@@ -9,8 +9,10 @@ import 'package:tictok_clone/utils.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
+  static String routeName = "/login";
+
   void _onSignUpTap(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop("Return to SignUp");
   }
 
   void _onEmailLoginTap(BuildContext context) {
