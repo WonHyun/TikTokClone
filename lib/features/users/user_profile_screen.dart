@@ -15,7 +15,14 @@ import 'widgets/profile_user_status_panel.dart';
 import 'widgets/square_button.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+  const UserProfileScreen({
+    super.key,
+    required this.username,
+    required this.tab,
+  });
+
+  final String username;
+  final String tab;
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -37,6 +44,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
         child: DefaultTabController(
+          initialIndex: widget.tab == "likes" ? 1 : 0,
           length: 2,
           child: NestedScrollView(
             physics: const BouncingScrollPhysics(),
@@ -121,7 +129,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               return [
                 SliverAppBar(
                   centerTitle: true,
-                  title: const Text("FIFA"),
+                  title: Text(widget.username),
                   actions: [
                     IconButton(
                       onPressed: _onGearPressed,
@@ -204,23 +212,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ],
                         );
                       } else {
-                        return const Column(
+                        return Column(
                           children: [
                             Gaps.v20,
-                            ProfileCircleAvatar(
+                            const ProfileCircleAvatar(
                               imgPath:
                                   "https://avatars.githubusercontent.com/u/34933982?v=4",
                             ),
                             Gaps.v20,
-                            ProfileIdView(id: "@FIFA", isCertified: true),
+                            ProfileIdView(
+                                id: "@${widget.username}", isCertified: true),
                             Gaps.v24,
-                            ProfileUserStatusPanel(
+                            const ProfileUserStatusPanel(
                               following: "97",
                               follower: "10M",
                               likes: "194.3M",
                             ),
                             Gaps.v14,
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ProfileFollowButton(width: 160),
@@ -239,13 +248,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               ],
                             ),
                             Gaps.v14,
-                            ProfileUserDescription(
+                            const ProfileUserDescription(
                               description:
                                   "All highlights and where to watch live matches on FIFA+ I wonder how it would loook",
                               textAlign: TextAlign.center,
                             ),
                             Gaps.v14,
-                            ProfileLinkText(link: "https://nomadcoders.co"),
+                            const ProfileLinkText(
+                                link: "https://nomadcoders.co"),
                             Gaps.v20,
                           ],
                         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/login_screen.dart';
@@ -10,7 +11,8 @@ import 'package:tictok_clone/utils.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
-  static String routeName = "/";
+  static String routeName = "signUp";
+  static String routeURL = "/";
 
   void _onScaffoldTap(BuildContext context) {
     FocusScope.of(context).unfocus();
@@ -21,8 +23,11 @@ class SignUpScreen extends StatelessWidget {
     //   builder: (context) => const LoginScreen(),
     // ));
     // print(result); // "Return to SignUp"
-    final result = await Navigator.pushNamed(context, LoginScreen.routeName);
-    print(result); // "Return to SignUp"
+
+    // final result = await Navigator.pushNamed(context, LoginScreen.routeName);
+    // print(result); // "Return to SignUp"
+
+    context.push(LoginScreen.routeURL);
   }
 
   void _onUsernameTap(BuildContext context) {
@@ -53,7 +58,11 @@ class SignUpScreen extends StatelessWidget {
     //         const UsernameScreen(),
     //   ),
     // );
-    Navigator.of(context).pushNamed(UsernameScreen.routeName);
+
+    // Navigator.of(context).pushNamed(UsernameScreen.routeName);
+
+    // context.push(UsernameScreen.routeName);
+    context.pushNamed(UsernameScreen.routeName);
   }
 
   @override
