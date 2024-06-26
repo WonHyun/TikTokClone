@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/onboarding/interests_screen.dart';
@@ -20,12 +21,13 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
       DateTime.now().subtract(const Duration(days: 365 * 12));
 
   void _onNextTap() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const InterestsScreen(),
-      ),
-      (route) => false,
-    );
+    // Navigator.of(context).pushAndRemoveUntil(
+    //   MaterialPageRoute(
+    //     builder: (context) => const InterestsScreen(),
+    //   ),
+    //   (route) => false,
+    // );
+    context.pushReplacementNamed(InterestsScreen.routeName);
   }
 
   void _setTextFieldDate(DateTime date) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/discover/discover_screen.dart';
@@ -13,16 +14,32 @@ import 'widgets/nav_tab.dart';
 import 'widgets/post_video_button.dart';
 
 class MainNavigaionScreen extends StatefulWidget {
-  const MainNavigaionScreen({super.key});
+  const MainNavigaionScreen({
+    super.key,
+    required this.tab,
+  });
+
+  static const String routeName = "mainNavigaion";
+
+  final String tab;
 
   @override
   State<MainNavigaionScreen> createState() => _MainNavigaionScreenState();
 }
 
 class _MainNavigaionScreenState extends State<MainNavigaionScreen> {
-  int _selectedIndex = 0;
+  final List<String> _tabs = [
+    "home",
+    "discover",
+    "record",
+    "inbox",
+    "profile",
+  ];
+
+  late int _selectedIndex = _tabs.indexOf(widget.tab);
 
   void _onTap(int index) {
+    context.go("/${_tabs[index]}");
     setState(() {
       _selectedIndex = index;
     });

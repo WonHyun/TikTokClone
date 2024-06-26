@@ -27,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
     // final result = await Navigator.pushNamed(context, LoginScreen.routeName);
     // print(result); // "Return to SignUp"
 
-    context.push(LoginScreen.routeURL);
+    context.pushNamed(LoginScreen.routeName);
   }
 
   void _onUsernameTap(BuildContext context) {
@@ -62,7 +62,14 @@ class SignUpScreen extends StatelessWidget {
     // Navigator.of(context).pushNamed(UsernameScreen.routeName);
 
     // context.push(UsernameScreen.routeName);
-    context.pushNamed(UsernameScreen.routeName);
+    // context.pushNamed(UsernameScreen.routeName);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const UsernameScreen(),
+      ),
+    );
   }
 
   @override
