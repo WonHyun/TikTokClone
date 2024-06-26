@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -40,6 +41,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   bool _hasPermission = false;
   bool _isSelfieMode = false;
+
+  // For iOS simulator
+  late final bool _noCamera = kDebugMode && Platform.isIOS;
 
   double _maxZoomLevel = 1.0;
   double _minZoomLevel = 1.0;
@@ -176,7 +180,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
-    initPermissions();
+    if (_noCamera) {
+      initPermissions();
+    } else {
+      setState(() {
+        _hasPermission = true;
+      });
+    }
+
     WidgetsBinding.instance.addObserver(this);
     _progressAnimationController.addListener(() {
       setState(() {});
@@ -206,7 +217,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       body: Expanded(
-        child: !_hasPermission || !_cameraController.value.isInitialized
+        child: !_hasPermission
             ? const Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -228,30 +239,32 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    CameraPreview(_cameraController),
-                    Positioned(
-                      top: Sizes.size20,
-                      right: Sizes.size20,
-                      child: Column(
-                        children: [
-                          IconButton(
-                            color: Colors.white,
-                            onPressed: _toggleSelfieMode,
-                            icon: const Icon(
-                              Icons.cameraswitch,
+                    if (!_noCamera && _cameraController.value.isInitialized)
+                      CameraPreview(_cameraController),
+                    if (!_noCamera)
+                      Positioned(
+                        top: Sizes.size20,
+                        right: Sizes.size20,
+                        child: Column(
+                          children: [
+                            IconButton(
+                              color: Colors.white,
+                              onPressed: _toggleSelfieMode,
+                              icon: const Icon(
+                                Icons.cameraswitch,
+                              ),
                             ),
-                          ),
-                          Gaps.v10,
-                          ...FlashMode.values.map(
-                            (value) => FlashButton(
-                              flashMode: value,
-                              onPressed: _setFlashMode,
-                              isOn: _flashMode == value,
+                            Gaps.v10,
+                            ...FlashMode.values.map(
+                              (value) => FlashButton(
+                                flashMode: value,
+                                onPressed: _setFlashMode,
+                                isOn: _flashMode == value,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
                     Positioned(
                       width: MediaQuery.of(context).size.width,
                       bottom: Sizes.size40,
