@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:tictok_clone/common/video_config/video_config.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/videos/widgets/more_rich_text.dart';
@@ -34,13 +36,13 @@ class _VideoPostState extends State<VideoPost>
   bool _isPaused = false;
   bool _isMuted = false;
 
-  void _onVideoChange() {
-    if (_videoController.value.isInitialized) {
-      if (_videoController.value.duration == _videoController.value.position) {
-        widget.onVideoFinished();
-      }
-    }
-  }
+  // void _onVideoChange() {
+  //   if (_videoController.value.isInitialized) {
+  //     if (_videoController.value.duration == _videoController.value.position) {
+  //       widget.onVideoFinished();
+  //     }
+  //   }
+  // }
 
   Future<void> _initVideoPlayer() async {
     await _videoController.initialize();
@@ -124,6 +126,7 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
+    final videoConfig = context.watch<VideoConfig>();
     return VisibilityDetector(
       key: Key("${widget.pageIndex}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -205,23 +208,26 @@ class _VideoPostState extends State<VideoPost>
             ),
           ),
           Positioned(
+            left: 20,
+            top: 40,
+            child: GestureDetector(
+              onTap: () => videoConfig.toggleIsMuted(),
+              child: Center(
+                child: FaIcon(
+                  videoConfig.isMuted
+                      ? FontAwesomeIcons.volumeXmark
+                      : FontAwesomeIcons.volumeHigh,
+                  color: Colors.white,
+                  size: 26,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
             bottom: 50,
             right: 10,
             child: Column(
               children: [
-                GestureDetector(
-                  onTap: _toggleVolume,
-                  child: Center(
-                    child: FaIcon(
-                      _isMuted
-                          ? FontAwesomeIcons.volumeXmark
-                          : FontAwesomeIcons.volumeHigh,
-                      color: Colors.white,
-                      size: 26,
-                    ),
-                  ),
-                ),
-                Gaps.v24,
                 const CircleAvatar(
                   radius: 25,
                   foregroundImage: AssetImage("assets/images/cyber-kitty.jpg"),

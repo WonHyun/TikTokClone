@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:tictok_clone/common/video_config/video_config.dart';
 import 'package:tictok_clone/constants/breakpoints.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -22,6 +24,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeConfig = context.watch<ThemeConfig>();
+    final videoConfig = context.watch<VideoConfig>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -32,6 +36,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: ListView(
           children: [
+            ListTile(
+              title: const Text("Dark Theme"),
+              subtitle: const Text("Enable dark theme."),
+              trailing: SizedBox(
+                width: 150,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () =>
+                          themeConfig.changeThemeMode(ThemeMode.system),
+                      icon: Icon(
+                        FontAwesomeIcons.gear,
+                        color: ThemeMode.system == themeConfig.themeMode
+                            ? Colors.amber
+                            : Theme.of(context).colorScheme.inverseSurface,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () =>
+                          themeConfig.changeThemeMode(ThemeMode.dark),
+                      icon: Icon(
+                        FontAwesomeIcons.solidMoon,
+                        color: ThemeMode.dark == themeConfig.themeMode
+                            ? Colors.amber
+                            : Theme.of(context).colorScheme.inverseSurface,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () =>
+                          themeConfig.changeThemeMode(ThemeMode.light),
+                      icon: Icon(
+                        FontAwesomeIcons.solidSun,
+                        color: ThemeMode.light == themeConfig.themeMode
+                            ? Colors.amber
+                            : Theme.of(context).colorScheme.inverseSurface,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SwitchListTile.adaptive(
+              value: videoConfig.isMuted,
+              onChanged: (value) => videoConfig.toggleIsMuted(),
+              title: const Text("Mute video"),
+              subtitle: const Text("Videos will be muted by default."),
+            ),
+            // AnimatedBuilder(
+            //   animation: videoMuteConfig,
+            //   builder: (context, child) {
+            //     return Builder(
+            //       builder: (context) {
+            //         return SwitchListTile.adaptive(
+            //           value: videoMuteConfig.value,
+            //           onChanged: (value) =>
+            //               videoMuteConfig.value = !videoMuteConfig.value,
+            //           title: const Text("Mute video"),
+            //           subtitle: const Text("Videos will be muted by default."),
+            //         );
+            //       },
+            //     );
+            //   },
+            // ),
             SwitchListTile.adaptive(
               value: _notifications,
               onChanged: _onNotificationChanged,

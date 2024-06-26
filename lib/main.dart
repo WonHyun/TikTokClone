@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:tictok_clone/common/video_config/video_config.dart';
 import 'package:tictok_clone/constants/theme.dart';
 import 'package:tictok_clone/router.dart';
 
@@ -19,7 +21,19 @@ void main() async {
 
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
-  runApp(const TikTokApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => VideoConfig(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeConfig(),
+        ),
+      ],
+      child: const TikTokApp(),
+    ),
+  );
 }
 
 class TikTokApp extends StatelessWidget {
@@ -30,7 +44,7 @@ class TikTokApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
-      themeMode: ThemeMode.system,
+      themeMode: context.watch<ThemeConfig>().themeMode,
       theme: TikTokTheme.lightTheme,
       darkTheme: TikTokTheme.darkTheme,
       routerConfig: router,
