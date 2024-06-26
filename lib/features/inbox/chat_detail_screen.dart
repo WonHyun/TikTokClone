@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  const ChatDetailScreen({super.key});
+  const ChatDetailScreen({
+    super.key,
+    required this.chatId,
+  });
+
+  static const String routeName = "chatDetail";
+  static const String routeURL = ":chatId";
+
+  final String chatId;
 
   @override
   State<ChatDetailScreen> createState() => _ChatDetailScreenState();
@@ -50,9 +57,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 ),
               ],
             ),
-            title: const Text(
-              "Nico",
-              style: TextStyle(
+            title: Text(
+              "Nico (${widget.chatId})",
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,13 +14,15 @@ import 'widgets/flash_button.dart';
 class VideoRecordingScreen extends StatefulWidget {
   const VideoRecordingScreen({super.key});
 
+  static const String routeName = "postVideo";
+  static const String routeURL = "/upload";
+
   @override
   State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-  late CameraController _cameraController;
   late final AnimationController _buttonAnimationController =
       AnimationController(
     vsync: this,
@@ -39,11 +40,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     duration: const Duration(seconds: 10),
   );
 
+  late CameraController _cameraController;
+
   bool _hasPermission = false;
   bool _isSelfieMode = false;
 
   // For iOS simulator
-  late final bool _noCamera = kDebugMode && Platform.isIOS;
+  // late final bool _noCamera = kDebugMode && Platform.isIOS;
+  late final bool _noCamera = true;
 
   double _maxZoomLevel = 1.0;
   double _minZoomLevel = 1.0;
@@ -171,7 +175,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    if (!_noCamera) _cameraController.dispose();
     _buttonAnimationController.dispose();
     _progressAnimationController.dispose();
     super.dispose();
@@ -200,15 +204,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   }
 
   @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_noCamera) return;
     if (!_hasPermission) return;
     if (!_cameraController.value.isInitialized) return;
     if (state == AppLifecycleState.inactive) {
       _cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
-      await initCamera();
-      setState(() {});
+      initCamera();
     }
   }
 
@@ -216,7 +219,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Expanded(
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
         child: !_hasPermission
             ? const Center(
                 child: Column(
@@ -241,6 +245,11 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                   children: [
                     if (!_noCamera && _cameraController.value.isInitialized)
                       CameraPreview(_cameraController),
+                    const Positioned(
+                      top: Sizes.size40,
+                      left: Sizes.size20,
+                      child: CloseButton(color: Colors.white),
+                    ),
                     if (!_noCamera)
                       Positioned(
                         top: Sizes.size20,

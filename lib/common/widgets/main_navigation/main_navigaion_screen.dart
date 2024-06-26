@@ -46,11 +46,7 @@ class _MainNavigaionScreenState extends State<MainNavigaionScreen> {
   }
 
   void _onPostVideoButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const VideoRecordingScreen(),
-      ),
-    );
+    context.pushNamed(VideoRecordingScreen.routeName);
   }
 
   @override
