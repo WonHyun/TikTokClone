@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:tictok_clone/features/videos/widgets/video_post.dart';
+import 'package:tictok_clone/features/videos/views/widgets/video_post.dart';
 
 class ViedoTimelineScreen extends StatefulWidget {
   const ViedoTimelineScreen({super.key});

@@ -6,8 +6,8 @@ import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/discover/discover_screen.dart';
 import 'package:tictok_clone/features/inbox/inbox_screen.dart';
 import 'package:tictok_clone/features/users/user_profile_screen.dart';
-import 'package:tictok_clone/features/videos/video_recording_screen.dart';
-import 'package:tictok_clone/features/videos/viedo_timeline_screen.dart';
+import 'package:tictok_clone/features/videos/views/video_recording_screen.dart';
+import 'package:tictok_clone/features/videos/views/viedo_timeline_screen.dart';
 import 'package:tictok_clone/utils.dart';
 
 import 'widgets/nav_tab.dart';

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:tictok_clone/common/video_config/video_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tictok_clone/constants/theme.dart';
+import 'package:tictok_clone/features/videos/repos/playback_config_repo.dart';
+import 'package:tictok_clone/features/videos/view_models/playback_config_view_model.dart';
 import 'package:tictok_clone/router.dart';
 
 void main() async {
@@ -15,6 +17,9 @@ void main() async {
     ],
   );
 
+  final preferences = await SharedPreferences.getInstance();
+  final repository = PlaybackConfigRepository(preferences);
+
   // SystemChrome.setSystemUIOverlayStyle(
   //   SystemUiOverlayStyle.light,
   // );
@@ -25,10 +30,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => VideoConfig(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ThemeConfig(),
+          create: (context) => PlaybackConfigViewModel(repository),
         ),
       ],
       child: const TikTokApp(),
@@ -44,7 +46,8 @@ class TikTokApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
-      themeMode: context.watch<ThemeConfig>().themeMode,
+      // themeMode: context.watch<ThemeConfig>().themeMode,
+      themeMode: ThemeMode.system,
       theme: TikTokTheme.lightTheme,
       darkTheme: TikTokTheme.darkTheme,
       routerConfig: router,

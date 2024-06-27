@@ -8,7 +8,7 @@ import 'package:tictok_clone/features/inbox/chat_detail_screen.dart';
 import 'package:tictok_clone/features/inbox/chats_screen.dart';
 import 'package:tictok_clone/features/onboarding/interests_screen.dart';
 import 'package:tictok_clone/features/users/user_profile_screen.dart';
-import 'package:tictok_clone/features/videos/video_recording_screen.dart';
+import 'package:tictok_clone/features/videos/views/video_recording_screen.dart';
 
 final router = GoRouter(
   initialLocation: "/inbox",
