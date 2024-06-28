@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/videos/view_models/playback_config_view_model.dart';
@@ -12,7 +12,7 @@ import 'package:tictok_clone/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   const VideoPost({
     super.key,
     required this.onVideoFinished,
@@ -23,10 +23,10 @@ class VideoPost extends StatefulWidget {
   final int pageIndex;
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   final VideoPlayerController _videoController =
       VideoPlayerController.asset("assets/videos/test_video.mp4");
@@ -63,7 +63,7 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoController.value.isPlaying) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      final autoplay = ref.read(playbackConfigProvider).autoplay;
       if (autoplay) {
         _videoController.play();
       }
@@ -113,7 +113,7 @@ class _VideoPostState extends State<VideoPost>
 
   Future<void> _onPlaybackConfigChanged() async {
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
+    final muted = ref.read(playbackConfigProvider).muted;
     if (muted) {
       _volume = 0.0;
     } else {
@@ -125,11 +125,14 @@ class _VideoPostState extends State<VideoPost>
   @override
   void initState() {
     super.initState();
-    context
-        .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
+    // ref.listen(playbackConfigProvider, (prev, next) {
+    //   if (prev == null) return;
+    //   if (prev.muted != next.muted) {
+    //     _onPlaybackConfigChanged();
+    //   }
+    // });
 
-    _isMuted = context.read<PlaybackConfigViewModel>().muted;
+    _isMuted = ref.read(playbackConfigProvider).muted;
     if (_isMuted) _volume = 0.0;
 
     _initVideoPlayer();
@@ -151,7 +154,6 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
-    // final videoConfig = context.watch<VideoConfig>();
     return VisibilityDetector(
       key: Key("${widget.pageIndex}"),
       onVisibilityChanged: _onVisibilityChanged,

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tictok_clone/features/videos/view_models/video_timeline_view_model.dart';
 import 'package:tictok_clone/features/videos/views/widgets/video_post.dart';
 
-class ViedoTimelineScreen extends StatefulWidget {
+class ViedoTimelineScreen extends ConsumerStatefulWidget {
   const ViedoTimelineScreen({super.key});
 
   @override
-  State<ViedoTimelineScreen> createState() => _ViedoTimelineScreenState();
+  ConsumerState<ViedoTimelineScreen> createState() =>
+      _ViedoTimelineScreenState();
 }
 
-class _ViedoTimelineScreenState extends State<ViedoTimelineScreen> {
+class _ViedoTimelineScreenState extends ConsumerState<ViedoTimelineScreen> {
   final PageController _controller = PageController();
-  final int _itemCount = 4;
 
   final _scrollDuration = const Duration(milliseconds: 250);
   final _scrollCurve = Curves.linear;
@@ -40,21 +41,32 @@ class _ViedoTimelineScreenState extends State<ViedoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      displacement: 50,
-      edgeOffset: 20,
-      color: Theme.of(context).primaryColor,
-      onRefresh: _onRefresh,
-      child: PageView.builder(
-        controller: _controller,
-        scrollDirection: Axis.vertical,
-        onPageChanged: _onPageChanged,
-        itemCount: _itemCount,
-        itemBuilder: (context, index) => VideoPost(
-          onVideoFinished: _onVideoFinished,
-          pageIndex: index,
-        ),
-      ),
-    );
+    return ref.watch(timelineProvider).when(
+          data: (videos) => RefreshIndicator(
+            displacement: 50,
+            edgeOffset: 20,
+            color: Theme.of(context).primaryColor,
+            onRefresh: _onRefresh,
+            child: PageView.builder(
+              controller: _controller,
+              scrollDirection: Axis.vertical,
+              onPageChanged: _onPageChanged,
+              itemCount: videos.length,
+              itemBuilder: (context, index) => VideoPost(
+                onVideoFinished: _onVideoFinished,
+                pageIndex: index,
+              ),
+            ),
+          ),
+          error: (err, stack) => Center(
+            child: Text(
+              "Could not load videos: $err",
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
   }
 }

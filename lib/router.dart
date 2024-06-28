@@ -12,7 +12,7 @@ import 'package:tictok_clone/features/users/user_profile_screen.dart';
 import 'package:tictok_clone/features/videos/views/video_recording_screen.dart';
 
 final router = GoRouter(
-  initialLocation: SignUpScreen.routeURL,
+  initialLocation: "/inbox",
   routes: [
     GoRoute(
       name: SettingsScreen.routeName,
