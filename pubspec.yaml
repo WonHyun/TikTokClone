@@ -30,8 +30,11 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:
     - assets/videos/
     - assets/images/
+flutter_intl:
+  enabled: true

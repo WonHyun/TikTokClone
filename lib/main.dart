@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tictok_clone/constants/theme.dart';
 import 'package:tictok_clone/features/videos/repos/playback_config_repo.dart';
 import 'package:tictok_clone/features/videos/view_models/playback_config_view_model.dart';
+import 'package:tictok_clone/generated/l10n.dart';
 import 'package:tictok_clone/router.dart';
 
 void main() async {
@@ -44,11 +45,13 @@ class TikTokApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    S.load(const Locale("ko"));
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
       // themeMode: context.watch<ThemeConfig>().themeMode,
       localizationsDelegates: const [
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

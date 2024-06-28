@@ -1,0 +1,86 @@
+{
+  "@@locale": "en",
+  "signUpTitle": "Sign up for {nameOfTheApp} {when}",
+  "@signUpTitle": {
+    "description": "The title people see when they open the app for the first time.",
+    "placeholders": {
+      "nameOfTheApp": {
+        "type": "String",
+        "example": "TikTok"
+      },
+      "when": {
+        "type": "DateTime",
+        "format": "LLLL",
+        "example": "2010-10-10"
+      }
+    }
+  },
+  "loginTitle": "Log into your {nameOfTheApp} account",
+  "@loginTitle": {
+    "description": "The title people see when they open the log in screen",
+    "placeholders": {
+      "nameOfTheApp": {
+        "type": "String",
+        "example": "TikTok"
+      }
+    }
+  },
+  "signUpSubtitle": "Create a profile, follow other accounts, make your own {videoCount, plural, =0 {no videos} =1 {video} other {videos}}, and more.",
+  "@signUpSubtitle": {
+    "placeholders": {
+      "videoCount": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "emailPasswordButton": "Use email & password",
+  "@emailPasswordButton": {},
+  "appleButton": "Continue with Apple",
+  "@appleButton": {},
+  "alreadyHaveAnAccount": "Already have an account?",
+  "@alreadyHaveAnAccount": {},
+  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}.",
+  "@logIn": {
+    "placeholders": {
+      "gender": {
+        "type": "String",
+        "example": "male"
+      }
+    }
+  },
+  "likeCount": "{likes}",
+  "@likeCount": {
+    "placeholders": {
+      "likes": {
+        "type": "int",
+        "format": "compact",
+        "example": "0"
+      }
+    }
+  },
+  "commentCount": "{comments}",
+  "@commentCount": {
+    "placeholders": {
+      "comments": {
+        "type": "int",
+        "format": "compact",
+        "example": "0"
+      }
+    }
+  },
+  "commentTitle": "{commentCount} {value, plural, =0 {comments} =1 {comment} other {comments}}",
+  "@commentTitle": {
+    "placeholders": {
+      "commentCount": {
+        "type": "int",
+        "format": "compact",
+        "example": "0"
+      },
+      "value": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  }
+}
