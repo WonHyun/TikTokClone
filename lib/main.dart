@@ -46,11 +46,11 @@ void main() async {
   );
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     S.load(const Locale("ko"));
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -70,7 +70,7 @@ class TikTokApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: TikTokTheme.lightTheme,
       darkTheme: TikTokTheme.darkTheme,
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
     );
   }
 }
