@@ -305,3 +305,4 @@ $RECYCLE.BIN/
 firebase.json
 google-services.json
 firebase_options.dart
+GoogleService-Info.plist
