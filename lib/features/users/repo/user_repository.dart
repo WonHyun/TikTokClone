@@ -21,6 +21,9 @@ class UserRepository {
   }
 
   // update profile
+  Future<void> updateProfile(UserProfileModel profile) async {
+    await _db.collection("users").doc(profile.uid).update(profile.toJson());
+  }
 
   Future<String> uploadAvatar(File file, String fileName) async {
     final fileRef = _storage.ref().child("avatars/$fileName");

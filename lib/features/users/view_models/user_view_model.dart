@@ -67,6 +67,12 @@ class UserViewModel extends AsyncNotifier<UserProfileModel> {
       },
     );
   }
+
+  Future<void> updateProfile(UserProfileModel profile) async {
+    state = const AsyncValue.loading();
+    await _userRepository.updateProfile(profile);
+    state = AsyncData(profile);
+  }
 }
 
 final usersProvider = AsyncNotifierProvider<UserViewModel, UserProfileModel>(

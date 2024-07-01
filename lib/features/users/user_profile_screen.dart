@@ -5,11 +5,12 @@ import 'package:tictok_clone/constants/breakpoints.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/settings/settings_screen.dart';
+import 'package:tictok_clone/features/users/models/user_profile_model.dart';
+import 'package:tictok_clone/features/users/user_profile_edit_screen.dart';
 import 'package:tictok_clone/features/users/view_models/user_view_model.dart';
 import 'package:tictok_clone/features/users/widgets/avatar.dart';
 import 'package:tictok_clone/features/users/widgets/persistent_tab_bar.dart';
 
-import 'widgets/profile_circle_avatar.dart';
 import 'widgets/profile_follow_button.dart';
 import 'widgets/profile_id_view.dart';
 import 'widgets/profile_link_text.dart';
@@ -37,6 +38,17 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => const SettingsScreen(),
+      ),
+    );
+  }
+
+  void _onEditPressed(UserProfileModel userProfile) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserProfileEditScreen(
+          userProfile: userProfile,
+        ),
       ),
     );
   }
@@ -138,6 +150,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                         title: Text(data.name),
                         actions: [
                           IconButton(
+                            onPressed: () => _onEditPressed(data),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.penToSquare,
+                              size: Sizes.size20,
+                            ),
+                          ),
+                          IconButton(
                             onPressed: _onGearPressed,
                             icon: const FaIcon(
                               FontAwesomeIcons.gear,
@@ -155,9 +174,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const ProfileCircleAvatar(
-                                        imgPath:
-                                            "https://avatars.githubusercontent.com/u/34933982?v=4",
+                                      Avatar(
+                                        name: data.name,
+                                        hasAvatar: data.hasAvatar,
+                                        uid: data.uid,
+                                        avatarUrl: data.avatarUrl,
                                       ),
                                       Gaps.h16,
                                       SizedBox(
@@ -170,16 +191,18 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                           children: [
                                             Gaps.v10,
                                             ProfileIdView(
-                                                id: "@${data.name}",
-                                                isCertified: true),
-                                            Gaps.v10,
-                                            const ProfileUserDescription(
-                                              description:
-                                                  "All highlights and where to watch live matches on FIFA+ I wonder how it would loook. All highlights and where to watch live matches on FIFA+ I wonder how it would loook.",
+                                              id: "@${data.name}",
+                                              isCertified: true,
                                             ),
                                             Gaps.v10,
-                                            const ProfileLinkText(
-                                                link: "https://nomadcoders.co"),
+                                            ProfileUserDescription(
+                                              description: data.bio,
+                                            ),
+                                            Gaps.v10,
+                                            ProfileLinkText(
+                                              link: data.link,
+                                              // link: "https://nomadcoders.co",
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -260,14 +283,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                                     ],
                                   ),
                                   Gaps.v14,
-                                  const ProfileUserDescription(
-                                    description:
-                                        "All highlights and where to watch live matches on FIFA+ I wonder how it would loook",
+                                  ProfileUserDescription(
+                                    description: data.bio,
                                     textAlign: TextAlign.center,
                                   ),
                                   Gaps.v14,
-                                  const ProfileLinkText(
-                                      link: "https://nomadcoders.co"),
+                                  ProfileLinkText(
+                                    link: data.link,
+                                  ),
                                   Gaps.v20,
                                 ],
                               );
