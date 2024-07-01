@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/email_screen.dart';
+import 'package:tictok_clone/features/authentication/view_models/sign_up_view_model.dart';
 
 import 'widgets/form_button.dart';
 
-class UsernameScreen extends StatefulWidget {
+class UsernameScreen extends ConsumerStatefulWidget {
   const UsernameScreen({super.key});
 
   // static String routeName = "username";
   // static String routeURL = "username";
 
   @override
-  State<UsernameScreen> createState() => _UsernameScreenState();
+  ConsumerState<UsernameScreen> createState() => _UsernameScreenState();
 }
 
-class _UsernameScreenState extends State<UsernameScreen> {
+class _UsernameScreenState extends ConsumerState<UsernameScreen> {
   final TextEditingController _usernameController = TextEditingController();
 
   String _username = "";
@@ -35,6 +37,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
     //   EmailScreen.routeName,
     //   extra: EmailScreenArguments(username: _username),
     // );
+    ref.read(signUpForm.notifier).state = {"name": _username};
     Navigator.push(
       context,
       MaterialPageRoute(
