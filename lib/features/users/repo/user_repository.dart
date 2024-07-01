@@ -11,6 +11,11 @@ class UserRepository {
   }
 
   // get profile
+  Future<Map<String, dynamic>?> findProfile(String uid) async {
+    final doc = await _db.collection("users").doc(uid).get();
+    return doc.data();
+  }
+
   // update profile
 }
 
