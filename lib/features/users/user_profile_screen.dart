@@ -6,6 +6,7 @@ import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/settings/settings_screen.dart';
 import 'package:tictok_clone/features/users/view_models/user_view_model.dart';
+import 'package:tictok_clone/features/users/widgets/avatar.dart';
 import 'package:tictok_clone/features/users/widgets/persistent_tab_bar.dart';
 
 import 'widgets/profile_circle_avatar.dart';
@@ -224,9 +225,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               return Column(
                                 children: [
                                   Gaps.v20,
-                                  const ProfileCircleAvatar(
-                                    imgPath:
-                                        "https://avatars.githubusercontent.com/u/34933982?v=4",
+                                  Avatar(
+                                    name: data.name,
+                                    hasAvatar: data.hasAvatar,
+                                    uid: data.uid,
+                                    avatarUrl: data.avatarUrl,
                                   ),
                                   Gaps.v20,
                                   ProfileIdView(

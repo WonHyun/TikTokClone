@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tictok_clone/features/users/models/user_profile_model.dart';
 
 class UserRepository {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // create profile
@@ -17,6 +21,19 @@ class UserRepository {
   }
 
   // update profile
+
+  Future<String> uploadAvatar(File file, String fileName) async {
+    final fileRef = _storage.ref().child("avatars/$fileName");
+    await fileRef.putFile(file);
+    return await fileRef.getDownloadURL();
+  }
+
+  Future<void> updateUser(
+    String uid,
+    Map<String, dynamic> data,
+  ) async {
+    await _db.collection("users").doc(uid).update(data);
+  }
 }
 
 final userRepo = Provider((ref) => UserRepository());
