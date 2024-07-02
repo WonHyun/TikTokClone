@@ -32,7 +32,7 @@ class VideoPost extends ConsumerStatefulWidget {
 class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoController =
-      VideoPlayerController.networkUrl(Uri.parse(widget.videoData.fileUrl));
+      VideoPlayerController.network(widget.videoData.fileUrl);
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
   late final AnimationController _animationController;
