@@ -17,12 +17,17 @@ class _ViedoTimelineScreenState extends ConsumerState<ViedoTimelineScreen> {
   final _scrollDuration = const Duration(milliseconds: 250);
   final _scrollCurve = Curves.linear;
 
+  int _itemCount = 0;
+
   void _onPageChanged(int page) {
     _controller.animateToPage(
       page,
       duration: _scrollDuration,
       curve: _scrollCurve,
     );
+    if (page == _itemCount - 1) {
+      ref.read(timelineProvider.notifier).fetchNextPage();
+    }
   }
 
   void _onVideoFinished() {
@@ -42,22 +47,29 @@ class _ViedoTimelineScreenState extends ConsumerState<ViedoTimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(timelineProvider).when(
-          data: (videos) => RefreshIndicator(
-            displacement: 50,
-            edgeOffset: 20,
-            color: Theme.of(context).primaryColor,
-            onRefresh: _onRefresh,
-            child: PageView.builder(
-              controller: _controller,
-              scrollDirection: Axis.vertical,
-              onPageChanged: _onPageChanged,
-              itemCount: videos.length,
-              itemBuilder: (context, index) => VideoPost(
-                onVideoFinished: _onVideoFinished,
-                pageIndex: index,
+          data: (videos) {
+            _itemCount = videos.length;
+            return RefreshIndicator(
+              displacement: 50,
+              edgeOffset: 20,
+              color: Theme.of(context).primaryColor,
+              onRefresh: _onRefresh,
+              child: PageView.builder(
+                controller: _controller,
+                scrollDirection: Axis.vertical,
+                onPageChanged: _onPageChanged,
+                itemCount: videos.length,
+                itemBuilder: (context, index) {
+                  final videoData = videos[index];
+                  return VideoPost(
+                    onVideoFinished: _onVideoFinished,
+                    pageIndex: index,
+                    videoData: videoData,
+                  );
+                },
               ),
-            ),
-          ),
+            );
+          },
           error: (err, stack) => Center(
             child: Text(
               "Could not load videos: $err",

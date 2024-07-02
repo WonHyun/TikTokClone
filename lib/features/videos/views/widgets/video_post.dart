@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/videos/models/video_model.dart';
 import 'package:tictok_clone/features/videos/view_models/playback_config_view_model.dart';
 import 'package:tictok_clone/features/videos/views/widgets/more_rich_text.dart';
 import 'package:tictok_clone/features/videos/views/widgets/video_button.dart';
@@ -17,10 +18,12 @@ class VideoPost extends ConsumerStatefulWidget {
     super.key,
     required this.onVideoFinished,
     required this.pageIndex,
+    required this.videoData,
   });
 
   final Function() onVideoFinished;
   final int pageIndex;
+  final VideoModel videoData;
 
   @override
   VideoPostState createState() => VideoPostState();
@@ -28,8 +31,8 @@ class VideoPost extends ConsumerStatefulWidget {
 
 class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
-  final VideoPlayerController _videoController =
-      VideoPlayerController.asset("assets/videos/test_video.mp4");
+  late final VideoPlayerController _videoController =
+      VideoPlayerController.networkUrl(Uri.parse(widget.videoData.fileUrl));
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
   late final AnimationController _animationController;
@@ -172,8 +175,9 @@ class VideoPostState extends ConsumerState<VideoPost>
                       ),
                     ),
                   )
-                : Container(
-                    color: Colors.black,
+                : Image(
+                    image: NetworkImage(widget.videoData.thumbnailUrl),
+                    fit: BoxFit.cover,
                   ),
           ),
           Positioned.fill(
@@ -211,9 +215,9 @@ class VideoPostState extends ConsumerState<VideoPost>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "@mayomint",
-                  style: TextStyle(
+                Text(
+                  "@${widget.videoData.creator}",
+                  style: const TextStyle(
                     fontSize: Sizes.size20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -222,13 +226,12 @@ class VideoPostState extends ConsumerState<VideoPost>
                 Gaps.v10,
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 100,
-                  child: const MoreRichText(
-                    textStyle: TextStyle(
+                  child: MoreRichText(
+                    textStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                     ),
-                    text:
-                        "Cosmic Stars from asia 'kongfu' house inside special l-u-n-c-h set. Cosmic Stars from asia 'kongfu' house inside special l-u-n-c-h set.",
+                    text: widget.videoData.description,
                   ),
                 ),
               ],
@@ -255,22 +258,24 @@ class VideoPostState extends ConsumerState<VideoPost>
             right: 10,
             child: Column(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25,
-                  foregroundImage: AssetImage("assets/images/cyber-kitty.jpg"),
-                  child: Text("US"),
+                  foregroundImage: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/tiktok-clone-c2476.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
+                  ),
+                  child: Text(widget.videoData.creator),
                 ),
                 Gaps.v24,
                 VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
-                  text: S.of(context).likeCount(1000000),
+                  text: S.of(context).likeCount(widget.videoData.likes),
                 ),
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
                   child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: S.of(context).commentCount(100000000),
+                    text: S.of(context).commentCount(widget.videoData.comments),
                   ),
                 ),
                 Gaps.v24,
