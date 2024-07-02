@@ -184,7 +184,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
-    if (_noCamera) {
+    if (!_noCamera) {
       initPermissions();
     } else {
       setState(() {
