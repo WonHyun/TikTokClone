@@ -6,6 +6,7 @@ import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/videos/models/video_model.dart';
 import 'package:tictok_clone/features/videos/view_models/playback_config_view_model.dart';
+import 'package:tictok_clone/features/videos/view_models/video_post_view_model.dart';
 import 'package:tictok_clone/features/videos/views/widgets/more_rich_text.dart';
 import 'package:tictok_clone/features/videos/views/widgets/video_button.dart';
 import 'package:tictok_clone/features/videos/views/widgets/video_comments.dart';
@@ -49,6 +50,10 @@ class VideoPostState extends ConsumerState<VideoPost>
   //     }
   //   }
   // }
+
+  void _onLikeTap() {
+    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
+  }
 
   Future<void> _initVideoPlayer() async {
     await _videoController.initialize();
@@ -266,9 +271,12 @@ class VideoPostState extends ConsumerState<VideoPost>
                   child: Text(widget.videoData.creator),
                 ),
                 Gaps.v24,
-                VideoButton(
-                  icon: FontAwesomeIcons.solidHeart,
-                  text: S.of(context).likeCount(widget.videoData.likes),
+                GestureDetector(
+                  onTap: _onLikeTap,
+                  child: VideoButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: S.of(context).likeCount(widget.videoData.likes),
+                  ),
                 ),
                 Gaps.v24,
                 GestureDetector(

@@ -34,8 +34,8 @@ class _ViedoTimelineScreenState extends ConsumerState<ViedoTimelineScreen> {
     // _controller.nextPage(duration: _scrollDuration, curve: _scrollCurve);
   }
 
-  Future<void> _onRefresh() {
-    return Future.delayed(const Duration(seconds: 5));
+  Future<void> _onRefresh() async {
+    return await ref.read(timelineProvider.notifier).refresh();
   }
 
   @override
